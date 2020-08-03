@@ -47,6 +47,6 @@
     "SnapshotGroups": "all",
     "SourceImage": "ami-0f38562b9d4de0dfe",
     "SshUsername": "Administrator",
-    "VolumeSize": "8"
+    "VolumeSize": "30"
   }
 }
