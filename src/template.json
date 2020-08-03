@@ -41,7 +41,7 @@
     "AmiGroups": "all",
     "Department": "Platform",
     "ImageName": "{{env `ImageName`}}",
-    "InstanceType": "t2.mirco",
+    "InstanceType": "t3.micro",
     "OwnerEmail": "it@sagebase.org",
     "Project": "Infrastructure",
     "SnapshotGroups": "all",
