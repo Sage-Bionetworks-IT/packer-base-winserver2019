@@ -1,13 +1,5 @@
-# packer-ami-template
-A template for quickly getting a new packer AWS AMI project started.
-
-__Note__: The files in this template are specifically to build a Ubuntu distribution.
-You may need to modify it slightly to work with other distros (redhat, aws linux, windows, etc..)
-
-## Naming
-**IMPORTANT**: Our naming convention is `packer-<image name>` (i.e. packer-base-ubuntu-bionic).
-Please name your repo accordingly.  This naming convention helps us locate packer repos and
-their corresponding builds in github and travis.
+# packer-windows
+A template for creating a windows AMI.
 
 ## Development
 
