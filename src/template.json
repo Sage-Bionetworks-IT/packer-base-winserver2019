@@ -17,7 +17,6 @@
       "region": "{{user `AwsRegion`}}",
       "snapshot_groups": "{{user `SnapshotGroups`}}",
       "source_ami": "{{user `SourceImage`}}",
-      "ssh_username": "{{user `SshUsername`}}",
       "tags": {
         "BuiltBy": "Packer",
         "Department": "{{user `Department`}}",
