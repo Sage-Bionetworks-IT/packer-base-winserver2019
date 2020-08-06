@@ -17,6 +17,7 @@
       "region": "{{user `AwsRegion`}}",
       "snapshot_groups": "{{user `SnapshotGroups`}}",
       "source_ami": "{{user `SourceImage`}}",
+      "ssh_username": "{{user `SshUsername`}}",
       "tags": {
         "BuiltBy": "Packer",
         "Department": "{{user `Department`}}",
@@ -45,7 +46,7 @@
     "Project": "Infrastructure",
     "SnapshotGroups": "all",
     "SourceImage": "ami-0f38562b9d4de0dfe",
-    "SshUsername": "Administrator",
+    "SshUsername": "root",
     "VolumeSize": "30"
   }
 }
