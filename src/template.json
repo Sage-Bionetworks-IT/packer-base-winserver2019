@@ -17,7 +17,8 @@
       "region": "{{user `AwsRegion`}}",
       "snapshot_groups": "{{user `SnapshotGroups`}}",
       "source_ami": "{{user `SourceImage`}}",
-      "ssh_username": "{{user `SshUsername`}}",
+      "communicator": "winrm",
+      "winrm_username": "Administrator",
       "tags": {
         "BuiltBy": "Packer",
         "Department": "{{user `Department`}}",
@@ -28,6 +29,12 @@
         "SourceAmiName": "{{ .SourceAMIName }}"
       },
       "type": "amazon-ebs"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "powershell",
+      "script": "init.ps1"
     }
   ],
   "post-processors": [
