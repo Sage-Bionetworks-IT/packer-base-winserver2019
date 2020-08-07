@@ -9,15 +9,7 @@
       "profile": "{{user `AwsProfile`}}",
       "region": "{{user `AwsRegion`}}",
       "snapshot_groups": "{{user `SnapshotGroups`}}",
-      "source_ami_filter": {
-        "filters": {
-          "name": "*Windows_Server-2019-R2*English-64Bit-Base*",
-          "root-device-type": "ebs",
-          "virtualization-type": "hvm"
-        },
-        "most_recent": true,
-        "owners": "amazon"
-      },
+      "source_ami": "{{user `SourceImage`}}",
       "tags": {
         "BuiltBy": "Packer",
         "Department": "{{user `Department`}}",
