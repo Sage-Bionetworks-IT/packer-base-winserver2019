@@ -3,6 +3,7 @@
     {
       "ami_groups": "{{user `AmiGroups`}}",
       "ami_name": "{{user `ImageName`}}",
+      "communicator": "winrm",
       "force_delete_snapshot": "true",
       "instance_type": "{{user `InstanceType`}}",
       "launch_block_device_mappings": [
@@ -17,8 +18,6 @@
       "region": "{{user `AwsRegion`}}",
       "snapshot_groups": "{{user `SnapshotGroups`}}",
       "source_ami": "{{user `SourceImage`}}",
-      "communicator": "winrm",
-      "winrm_username": "Administrator",
       "tags": {
         "BuiltBy": "Packer",
         "Department": "{{user `Department`}}",
@@ -28,13 +27,8 @@
         "SourceAmiId": "{{ .SourceAMI }}",
         "SourceAmiName": "{{ .SourceAMIName }}"
       },
-      "type": "amazon-ebs"
-    }
-  ],
-  "provisioners": [
-    {
-      "type": "powershell",
-      "script": "init.ps1"
+      "type": "amazon-ebs",
+      "winrm_username": "Administrator"
     }
   ],
   "post-processors": [
@@ -42,6 +36,12 @@
       "output": "manifest.json",
       "strip_path": true,
       "type": "manifest"
+    }
+  ],
+  "provisioners": [
+    {
+      "script": "init.ps1",
+      "type": "powershell"
     }
   ],
   "variables": {
