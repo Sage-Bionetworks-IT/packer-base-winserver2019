@@ -9,7 +9,15 @@
       "profile": "{{user `AwsProfile`}}",
       "region": "{{user `AwsRegion`}}",
       "snapshot_groups": "{{user `SnapshotGroups`}}",
-      "source_ami": "{{user `SourceImage`}}",
+      "source_ami_filter": {
+        "filters": {
+          "name": "*Windows_Server-2019-R2*English-64Bit-Base*",
+          "root-device-type": "ebs",
+          "virtualization-type": "hvm"
+        },
+        "most_recent": true,
+        "owners": "amazon"
+      },
       "tags": {
         "BuiltBy": "Packer",
         "Department": "{{user `Department`}}",
@@ -20,8 +28,8 @@
         "SourceAmiName": "{{ .SourceAMIName }}"
       },
       "type": "amazon-ebs",
-      "winrm_insecure": true,
-      "winrm_use_ssl": true,
+      "user_data_file": "./bootstrap_win.txt",
+      "winrm_password": "SuperS3cr3t!!!!",
       "winrm_username": "Administrator"
     }
   ],
@@ -34,7 +42,28 @@
   ],
   "provisioners": [
     {
-      "script": "init.ps1",
+      "environment_vars": [
+        "DEVOPS_LIFE_IMPROVER=PACKER"
+      ],
+      "inline": [
+        "Write-Host \"HELLO NEW USER; WELCOME TO $Env:DEVOPS_LIFE_IMPROVER\"",
+        "Write-Host \"You need to use backtick escapes when using\"",
+        "Write-Host \"characters such as DOLLAR`$ directly in a command\"",
+        "Write-Host \"or in your own scripts.\""
+      ],
+      "type": "powershell"
+    },
+    {
+      "type": "windows-restart"
+    },
+    {
+      "environment_vars": [
+        "VAR1=A$Dollar",
+        "VAR2=A`Backtick",
+        "VAR3=A'SingleQuote",
+        "VAR4=A\"DoubleQuote"
+      ],
+      "script": "./sample_script.ps1",
       "type": "powershell"
     }
   ],
