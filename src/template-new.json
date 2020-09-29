@@ -9,10 +9,17 @@
       "winrm_username": "Administrator",
       "winrm_use_ssl": true,
       "winrm_timeout": "15m",
-
-      "user_data_file": "./boot_config/winrm_bootstrap.txt",
+      "user_data_file": "unattended/bootstrap.txt",
       "force_delete_snapshot": "true",
       "instance_type": "{{user `InstanceType`}}",
+      "launch_block_device_mappings": [
+        {
+          "delete_on_termination": true,
+          "device_name": "/dev/sda1",
+          "volume_size": "{{user `VolumeSize`}}",
+          "volume_type": "gp2"
+        }
+      ],
       "profile": "{{user `AwsProfile`}}",
       "region": "{{user `AwsRegion`}}",
       "snapshot_groups": "{{user `SnapshotGroups`}}",
@@ -38,12 +45,13 @@
   ],
   "provisioners": [
     {
-      "inline": [
-        "C:/ProgramData/Amazon/EC2-Windows/Launch/Scripts/InitializeInstance.ps1 -Schedule",
-        "C:/ProgramData/Amazon/EC2-Windows/Launch/Scripts/SysprepInstance.ps1 -NoShutdown"
-      ],
       "type": "powershell",
-      "timeout": "5m"
+      "inline": [
+        "C:\\ProgramData\\Amazon\\EC2-Windows\\Launch\\Scripts\\SendWindowsIsReady.ps1 -Schedule",
+        "C:\\ProgramData\\Amazon\\EC2-Windows\\Launch\\Scripts\\InitializeInstance.ps1 -Schedule",
+        "C:\\ProgramData\\Amazon\\EC2-Windows\\Launch\\Scripts\\SysprepInstance.ps1 -NoShutdown"
+      ],
+      "only": ["amazon-ebs"]
     }
   ],
   "variables": {
@@ -54,6 +62,7 @@
     "OwnerEmail": "it@sagebase.org",
     "Project": "Infrastructure",
     "SnapshotGroups": "all",
-    "SourceImage": "ami-0eb7fbcc77e5e6ec6"
+    "SourceImage": "ami-0eb7fbcc77e5e6ec6",
+    "VolumeSize": "30"
   }
 }
