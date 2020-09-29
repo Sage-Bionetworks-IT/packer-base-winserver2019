@@ -9,7 +9,6 @@
       "winrm_username": "Administrator",
       "winrm_use_ssl": true,
       "winrm_timeout": "15m",
-
       "user_data_file": "./boot_config/winrm_bootstrap.txt",
       "force_delete_snapshot": "true",
       "instance_type": "{{user `InstanceType`}}",
