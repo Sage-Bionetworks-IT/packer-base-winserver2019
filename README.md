@@ -1,5 +1,5 @@
 # packer-windows
-A template for creating a windows AMI.
+Project to build a base Windows image and deploy it to AWS
 
 ## Development
 
