@@ -5,6 +5,7 @@
       "ami_name": "{{user `ImageName`}}",
       "communicator": "winrm",
       "force_delete_snapshot": "true",
+      "force_deregister": true,
       "instance_type": "{{user `InstanceType`}}",
       "profile": "{{user `AwsProfile`}}",
       "region": "{{user `AwsRegion`}}",
@@ -20,8 +21,10 @@
         "SourceAmiName": "{{ .SourceAMIName }}"
       },
       "type": "amazon-ebs",
-      "user_data_file": "./bootstrap_win.txt",
-      "winrm_password": "SuperS3cr3t!!!!",
+      "user_data_file": "./boot_config/winrm_bootstrap.txt",
+      "winrm_insecure": true,
+      "winrm_timeout": "15m",
+      "winrm_use_ssl": true,
       "winrm_username": "Administrator"
     }
   ],
@@ -34,28 +37,10 @@
   ],
   "provisioners": [
     {
-      "environment_vars": [
-        "DEVOPS_LIFE_IMPROVER=PACKER"
-      ],
       "inline": [
-        "Write-Host \"HELLO NEW USER; WELCOME TO $Env:DEVOPS_LIFE_IMPROVER\"",
-        "Write-Host \"You need to use backtick escapes when using\"",
-        "Write-Host \"characters such as DOLLAR`$ directly in a command\"",
-        "Write-Host \"or in your own scripts.\""
+        "C:/ProgramData/Amazon/EC2-Windows/Launch/Scripts/InitializeInstance.ps1 -Schedule",
+        "C:/ProgramData/Amazon/EC2-Windows/Launch/Scripts/SysprepInstance.ps1 -NoShutdown"
       ],
-      "type": "powershell"
-    },
-    {
-      "type": "windows-restart"
-    },
-    {
-      "environment_vars": [
-        "VAR1=A$Dollar",
-        "VAR2=A`Backtick",
-        "VAR3=A'SingleQuote",
-        "VAR4=A\"DoubleQuote"
-      ],
-      "script": "./sample_script.ps1",
       "type": "powershell"
     }
   ],
@@ -63,12 +48,10 @@
     "AmiGroups": "all",
     "Department": "Platform",
     "ImageName": "{{env `ImageName`}}",
-    "InstanceType": "t3.micro",
+    "InstanceType": "t3.small",
     "OwnerEmail": "it@sagebase.org",
     "Project": "Infrastructure",
     "SnapshotGroups": "all",
-    "SourceImage": "ami-0f38562b9d4de0dfe",
-    "SshUsername": "root",
-    "VolumeSize": "30"
+    "SourceImage": "ami-0eb7fbcc77e5e6ec6"
   }
 }

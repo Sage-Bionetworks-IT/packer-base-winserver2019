@@ -1,5 +1,15 @@
 <powershell>
 
+# MAKE SURE IN YOUR PACKER CONFIG TO SET:
+#
+#
+#    "winrm_username": "Administrator",
+#    "winrm_insecure": true,
+#    "winrm_use_ssl": true,
+#
+#
+
+
 write-output "Running User Data Script"
 write-host "(host) Running User Data Script"
 
@@ -11,6 +21,7 @@ $ErrorActionPreference = "stop"
 # Remove HTTP listener
 Remove-Item -Path WSMan:\Localhost\listener\listener* -Recurse
 
+# Create a self-signed certificate to let ssl work
 $Cert = New-SelfSignedCertificate -CertstoreLocation Cert:\LocalMachine\My -DnsName "packer"
 New-Item -Path WSMan:\LocalHost\Listener -Transport HTTPS -Address * -CertificateThumbPrint $Cert.Thumbprint -Force
 
