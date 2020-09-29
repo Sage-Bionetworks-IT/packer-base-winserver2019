@@ -4,13 +4,8 @@
       "ami_groups": "{{user `AmiGroups`}}",
       "ami_name": "{{user `ImageName`}}",
       "communicator": "winrm",
-      "force_deregister": true,
-      "winrm_insecure": true,
-      "winrm_username": "Administrator",
-      "winrm_use_ssl": true,
-      "winrm_timeout": "15m",
-      "user_data_file": "./boot_config/winrm_bootstrap.txt",
       "force_delete_snapshot": "true",
+      "force_deregister": true,
       "instance_type": "{{user `InstanceType`}}",
       "profile": "{{user `AwsProfile`}}",
       "region": "{{user `AwsRegion`}}",
@@ -25,7 +20,12 @@
         "SourceAmiId": "{{ .SourceAMI }}",
         "SourceAmiName": "{{ .SourceAMIName }}"
       },
-      "type": "amazon-ebs"
+      "type": "amazon-ebs",
+      "user_data_file": "./boot_config/winrm_bootstrap.txt",
+      "winrm_insecure": true,
+      "winrm_timeout": "15m",
+      "winrm_use_ssl": true,
+      "winrm_username": "Administrator"
     }
   ],
   "post-processors": [
@@ -41,8 +41,8 @@
         "C:/ProgramData/Amazon/EC2-Windows/Launch/Scripts/InitializeInstance.ps1 -Schedule",
         "C:/ProgramData/Amazon/EC2-Windows/Launch/Scripts/SysprepInstance.ps1 -NoShutdown"
       ],
-      "type": "powershell",
-      "timeout": "5m"
+      "timeout": "5m",
+      "type": "powershell"
     }
   ],
   "variables": {
