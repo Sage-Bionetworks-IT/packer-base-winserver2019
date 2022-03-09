@@ -51,7 +51,6 @@
     "InstanceType": "t3.small",
     "OwnerEmail": "it@sagebase.org",
     "Project": "Infrastructure",
-    "SnapshotGroups": "all",
-    "SourceImage": "ami-0eb7fbcc77e5e6ec6"
+    "SnapshotGroups": "all"
   }
 }
