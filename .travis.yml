@@ -7,6 +7,7 @@ env:
     - IMAGE_NAME="${REPO_NAME}-${TRAVIS_BRANCH}"
     - AWS_PROFILE="ci-role"
     - AWS_REGION="us-east-1"
+    - AWS_SOURCE_IMAGE_PATH="/aws/service/ami-windows-latest/Windows_Server-2019-English-Full-Base"
 install:
   # install packer
   - curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
@@ -33,12 +34,14 @@ jobs:
       script:
         - pre-commit run --all-files
         - pushd src
-        - packer validate -var ImageName=${IMAGE_NAME} template.json
+        - packer validate -var ImageName=${IMAGE_NAME} -var SourceImage="some_aws_image_path" template.json
     - stage: deploy-branch
       script:
+        - export LATEST_AMI=$(aws ssm get-parameters --profile ${AWS_PROFILE} --names ${AWS_SOURCE_IMAGE_PATH} --query 'Parameters[0].[Value]' --output text)
         - pushd src
-        - travis-wait-improved --timeout 45m packer build -force -var AwsProfile=${AWS_PROFILE} -var ImageName=${IMAGE_NAME} template.json
+        - travis-wait-improved --timeout 45m packer build -force -var AwsProfile=${AWS_PROFILE} -var ImageName=${IMAGE_NAME} -var SourceImage=${LATEST_AMI} template.json
     - stage: deploy-tag
       script:
+        - export LATEST_AMI=$(aws ssm get-parameters --profile ${AWS_PROFILE} --names ${AWS_SOURCE_IMAGE_PATH} --query 'Parameters[0].[Value]' --output text)
         - pushd src
-        - travis-wait-improved --timeout 45m packer build -force -var AwsProfile=${AWS_PROFILE} -var ImageName=${IMAGE_NAME} template.json
+        - travis-wait-improved --timeout 45m packer build -force -var AwsProfile=${AWS_PROFILE} -var ImageName=${IMAGE_NAME} -var SourceImage=${LATEST_AMI} template.json
